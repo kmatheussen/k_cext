@@ -59,7 +59,7 @@ pd_linux: $(NAME).pd_linux  k_cext.c k_cext.h  k_cext_generatecode.c
 
 LINUXCFLAGS = -DPD -DUNIX -DICECAST -O2 -funroll-loops -fomit-frame-pointer \
     -Wall -W -Wno-shadow -Wstrict-prototypes \
-    -Wno-unused -Wno-parentheses -Wno-switch #-Werror
+    -Wno-unused -Wno-parentheses -Wno-switch -fPIC #-Werror
 
 LINUXINCLUDEPATH=../../src
 LINUXINCLUDE =  -I$(LINUXINCLUDEPATH)
@@ -67,7 +67,7 @@ LINUXINCLUDE =  -I$(LINUXINCLUDEPATH)
 .c.pd_linux:
 	cc $(LINUXCFLAGS) $(LINUXINCLUDE) -DINCLUDEPATH=\""`pwd`"\" -DLINUXINCLUDE=\""$(LINUXINCLUDEPATH)"\" -o k_cext.o -c k_cext.c
 	cc $(LINUXCFLAGS) $(LINUXINCLUDE) -DINCLUDEPATH=\""`pwd`"\" -DLINUXINCLUDE=\""$(LINUXINCLUDEPATH)"\" -o k_cext_unix.o -c k_cext_unix.c
-	ld -export_dynamic  -shared -o k_cext.pd_linux k_cext.o k_cext_unix.o -lc -lm
+	cc -shared -o k_cext.pd_linux k_cext.o k_cext_unix.o -lc -lm -fPIC
 	strip --strip-unneeded $*.pd_linux
 	rm -f $*.o ../$*.pd_linux
 	ln -s $(DIR)/$*.pd_linux ..

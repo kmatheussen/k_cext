@@ -54,7 +54,7 @@ void k_sys_writeincludes(FILE *file){
 }
 
 void k_sys_makecompilestring(char *to,char *name,char *funcname){
-  sprintf(to,"gcc -Wall -O2 %s -o %s.o -shared",name,name);
+  sprintf(to,"gcc -Wall -O2 %s -o %s.o -shared -fPIC",name,name);
 }
 
 void k_sys_deletefile(char *name){
